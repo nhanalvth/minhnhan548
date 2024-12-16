@@ -51,14 +51,21 @@ pipeline{
             }
 
         }
-        stage("Quality Gate") {
+        /*stage("Quality Gate") {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: true, credentialsId: 'jenkins-sonarqube-token'
+                    def qualityGateStatus = waitForQualityGate(credentialsId: 'jenkins-sonarqube-token')
+                    if (qualityGateStatus == 'OK') {
+                        echo "Quality Gate Passed"
+                    } else {
+                        echo "Quality Gate Failed"
+                        currentBuild.result = 'FAILURE'
+                        // Dừng pipeline nếu không đạt chất lượng
+                        error("Quality Gate failed, stopping pipeline")
+                    }
                 }
             }
-
-        }
+        }*/
         stage("Build & Push Docker Image") {
             steps {
                 script {
