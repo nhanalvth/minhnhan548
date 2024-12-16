@@ -12,7 +12,7 @@ pipeline{
         DOCKER_USER = "minhnhan548"
         DOCKER_PASS = 'dockerhub'
         IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
-        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+        //IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 
     }
     stages{
@@ -54,7 +54,7 @@ pipeline{
         stage("Quality Gate") {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
+                    waitForQualityGate abortPipeline: true, credentialsId: 'jenkins-sonarqube-token'
                 }
             }
 
@@ -62,17 +62,16 @@ pipeline{
         stage("Build & Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build "${IMAGE_NAME}"
-                    }
-
-                    docker.withRegistry('',DOCKER_PASS) {
+                    def IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+                    def IMAGE_TAG = "${RELEASE}-${env.BUILD_NUMBER}"
+                    
+                    docker.withRegistry('', DOCKER_PASS) {
+                        def docker_image = docker.build("${IMAGE_NAME}")
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
                     }
                 }
             }
-
         }
 
 
