@@ -11,8 +11,7 @@ pipeline{
         RELEASE = "1.0.0"
         DOCKER_USER = "minhnhan548"
         DOCKER_PASS = 'dockerhub'
-        //IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
-        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+        IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         //APP_NAME = "minhnhan548"
         JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
@@ -69,7 +68,7 @@ pipeline{
                 }
             }
         }*/
-        /*stage("Build & Push Docker Image") {
+        stage("Build & Push Docker Image") {
             steps {
                 script {
                     def IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
@@ -82,19 +81,8 @@ pipeline{
                     }
                 }
             }
-        }*/
-        stage("Build & Push Docker Image") {
-            steps {
-                script {
-                    docker.withRegistry('', 'dockerhub-credentials-id') {
-                        def docker_image = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-                        docker_image.push()
-                        docker_image.push('latest')
-                    }
-                }
-            }
-        }
-
+        /
+        
         /*stage("Trigger CD Pipeline") {
             steps {
                 script {
