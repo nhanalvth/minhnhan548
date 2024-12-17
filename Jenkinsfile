@@ -81,30 +81,15 @@ pipeline{
                     }
                 }
             }
-        /
+        }
         
-        /*stage("Trigger CD Pipeline") {
+        stage("Trigger CD Pipeline") {
             steps {
                 script {
                     sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://192.168.158.10:8080/job/gitops-complete-pipeline/buildWithParameters?token=gitops-token'"
                 }
             }
 
-        }*/
-        stage("Trigger CD Pipeline") {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'JENKINS_API_TOKEN', variable: 'JENKINS_API_TOKEN')]) {
-                        sh '''
-                            curl -v -k --user admin:$JENKINS_API_TOKEN \
-                            -X POST -H "cache-control: no-cache" \
-                            -H "content-type: application/x-www-form-urlencoded" \
-                            --data "IMAGE_TAG=${IMAGE_TAG}" \
-                            "http://192.168.158.10:8080/job/gitops-complete-pipeline/buildWithParameters?token=gitops-token"
-                        '''
-                    }
-                }
-            }
         }
 
     }
