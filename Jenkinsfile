@@ -13,7 +13,6 @@ pipeline{
         DOCKER_PASS = 'dockerhub'
         IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
-        //APP_NAME = "minhnhan548"
         JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
 
     }
@@ -53,7 +52,7 @@ pipeline{
             }
 
         }
-        /*stage("Quality Gate") {
+        stage("Quality Gate") {
             steps {
                 script {
                     def qualityGateStatus = waitForQualityGate(credentialsId: 'jenkins-sonarqube-token')
@@ -67,7 +66,7 @@ pipeline{
                     }
                 }
             }
-        }*/
+        }
         stage("Build & Push Docker Image") {
             steps {
                 script {
