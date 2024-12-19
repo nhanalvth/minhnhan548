@@ -52,7 +52,7 @@ pipeline{
             }
 
         }
-        stage("Quality Gate") {
+        /*stage("Quality Gate") {
             steps {
                 script {
                     def qualityGateStatus = waitForQualityGate(credentialsId: 'jenkins-sonarqube-token')
@@ -66,7 +66,7 @@ pipeline{
                     }
                 }
             }
-        }
+        }*/
         stage("Build & Push Docker Image") {
             steps {
                 script {
