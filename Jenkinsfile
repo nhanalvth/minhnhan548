@@ -23,12 +23,18 @@ pipeline{
             }
 
         }
-        stage("Checkout from SCM"){
+        /*stage("Checkout from SCM"){
             steps {
                 git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/nhanalvth/minhnhan548'
             }
 
+        }*/
+        stage("Checkout from SCM") {
+            steps {
+                git url: 'https://github.com/nhanalvth/minhnhan548', branch: 'main', credentialsId: 'github-token'
+            }
         }
+
         stage("Build Application"){
             steps {
                 sh "mvn clean package"
@@ -52,7 +58,7 @@ pipeline{
             }
 
         }
-        /*stage("Quality Gate") {
+        stage("Quality Gate") {
             steps {
                 script {
                     def qualityGateStatus = waitForQualityGate(credentialsId: 'jenkins-sonarqube-token')
@@ -66,7 +72,7 @@ pipeline{
                     }
                 }
             }
-        }*/
+        }
         stage("Build & Push Docker Image") {
             steps {
                 script {
